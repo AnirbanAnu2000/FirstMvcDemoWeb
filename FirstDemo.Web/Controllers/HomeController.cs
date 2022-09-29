@@ -15,11 +15,20 @@ namespace FirstDemo.Web.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var model = new IndexModel();
+            return View(model);
         }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public IActionResult Index(IndexModel model)
+        {
+            return View(model);
+        }
+
         public IActionResult AboutMe()
         {
             return View();
+            //return RedirectToAction("Privacy");
         }
 
         public IActionResult Privacy()
