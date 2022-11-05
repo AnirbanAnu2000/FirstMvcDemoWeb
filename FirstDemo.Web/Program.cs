@@ -7,20 +7,30 @@ using Serilog;
 using Serilog.Context;
 using Serilog.Events;
 using System.Configuration;
+using System.Reflection;
+using FirstDemo.Base.DbContexts;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var assemblyName = Assembly.GetExecutingAssembly().FullName;
 
 //Autofac Configuration
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
 {
     containerBuilder.RegisterModule(new WebModule());
+    containerBuilder.RegisterModule(new BaseModule(connectionString, assemblyName));
 });
 
 // Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
+builder.Services.AddDbContext<BaseDbContext>(options =>
+    options.UseSqlServer(connectionString, a => a.MigrationsAssembly(assemblyName)));
+builder.Services.AddDbContext<BaseDbContext>(options =>
+    options.UseSqlServer(connectionString, a => a.MigrationsAssembly(assemblyName)));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
