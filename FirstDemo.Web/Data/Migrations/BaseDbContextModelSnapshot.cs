@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace FirstDemo.Web.Data.Miggrations
+namespace FirstDemo.Web.Data.Migrations
 {
     [DbContext(typeof(BaseDbContext))]
     partial class BaseDbContextModelSnapshot : ModelSnapshot

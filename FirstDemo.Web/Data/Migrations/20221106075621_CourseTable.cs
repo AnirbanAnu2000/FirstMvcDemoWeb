@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace FirstDemo.Web.Data.Miggrations
+namespace FirstDemo.Web.Data.Migrations
 {
     public partial class CourseTable : Migration
     {
