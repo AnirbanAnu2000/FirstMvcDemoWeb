@@ -10,6 +10,8 @@ public class WebModule : Module
 
         builder.RegisterType<IndexModel>().AsSelf();
 
+        builder.RegisterType<PostRepository>().As<IPostRepository>().InstancePerLifetimeScope();
+
         base.Load(builder);
     }
 }
